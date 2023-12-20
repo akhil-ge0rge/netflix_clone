@@ -25,6 +25,7 @@ class DownloadScreen extends StatelessWidget {
             appBarTitle: 'Downloads',
           )),
       body: ListView(
+        padding: EdgeInsets.all(10),
         children: [
           const Row(
             children: [
@@ -34,13 +35,38 @@ class DownloadScreen extends StatelessWidget {
                 color: kWhiteColor,
               ),
               kWidth,
-              Text("Smart Download")
+              Text(
+                "Smart Download",
+                style: TextStyle(
+                  color: kWhiteColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              )
             ],
           ),
-          const Text("Introducing Downloads For you"),
+          kHeight,
           const Text(
-              "We will download a personalized selection of movies and shows for you so there is always something to watch on your device"),
-          Container(
+            "Introducing Downloads For you",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: kWhiteColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+          kHeight,
+          const Text(
+            "We will download a personalized selection of\nmovies and shows for you so there's\nalways something to watch on your\ndevice",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.grey,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+          kHeight,
+          SizedBox(
             width: size.width,
             height: size.width,
             child: Stack(
@@ -48,6 +74,7 @@ class DownloadScreen extends StatelessWidget {
               children: [
                 Center(
                   child: CircleAvatar(
+                    backgroundColor: Colors.grey,
                     radius: size.width * 0.4,
                   ),
                 ),
@@ -69,9 +96,11 @@ class DownloadScreen extends StatelessWidget {
               ],
             ),
           ),
-          MaterialButton(
+          ElevatedButton(
             onPressed: () {},
-            color: kButtonColorBlue,
+            style: const ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll(kButtonColorBlue),
+            ),
             child: const Text(
               "Set Up",
               style: TextStyle(
@@ -81,9 +110,12 @@ class DownloadScreen extends StatelessWidget {
               ),
             ),
           ),
-          MaterialButton(
+          kHeight,
+          ElevatedButton(
             onPressed: () {},
-            color: kButtonColorWhite,
+            style: const ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll(kWhiteColor),
+            ),
             child: const Text(
               "See What You Can Download",
               style: TextStyle(
@@ -92,7 +124,7 @@ class DownloadScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),
+          )
         ],
       ),
     );
