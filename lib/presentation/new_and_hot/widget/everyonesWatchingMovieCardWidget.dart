@@ -15,10 +15,10 @@ class EveryoneWatchingMovieCardWidget extends StatelessWidget {
         Text(
           "Tall Gril 2",
           style: TextStyle(
-              color: kWhiteColor,
-              letterSpacing: 1,
-              fontWeight: FontWeight.bold,
-              fontSize: 12),
+            color: kWhiteColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 15,
+          ),
         ),
         kHeight,
         Text(
