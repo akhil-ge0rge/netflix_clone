@@ -1,6 +1,8 @@
-import 'dart:math';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:netflix_clone/application/bloc/downloads_bloc.dart';
 import 'package:netflix_clone/core/colors/colors.dart';
 import 'package:netflix_clone/presentation/downloads/widgets/rotatedImage.dart';
 import 'package:netflix_clone/presentation/widget/appbar_widget.dart';
@@ -8,15 +10,16 @@ import 'package:netflix_clone/presentation/widget/appbar_widget.dart';
 import '../../core/constants.dart';
 
 class DownloadScreen extends StatelessWidget {
-  DownloadScreen({super.key});
-  final List imageList = [
-    'https://www.themoviedb.org/t/p/w440_and_h660_face/mBaXZ95R2OxueZhvQbcEWy2DqyO.jpg',
-    'https://www.themoviedb.org/t/p/w440_and_h660_face/upmXGc1QovmPBU0mQJR2re6ruKd.jpg',
-    'https://www.themoviedb.org/t/p/w440_and_h660_face/exNtEY8QUuQh9e23wSQjkPxKIU3.jpg'
-  ];
+  const DownloadScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<DownloadsBloc>(context)
+          .add(const DownloadsEvent.getDownloadsImages());
+    });
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: const PreferredSize(
@@ -25,7 +28,7 @@ class DownloadScreen extends StatelessWidget {
             appBarTitle: 'Downloads',
           )),
       body: ListView(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         children: [
           const Row(
             children: [
@@ -66,35 +69,51 @@ class DownloadScreen extends StatelessWidget {
             ),
           ),
           kHeight,
-          SizedBox(
-            width: size.width,
-            height: size.width,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Center(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.grey,
-                    radius: size.width * 0.4,
-                  ),
-                ),
-                RotatedImages(
-                  angle: 30,
-                  margin: const EdgeInsets.only(left: 140, bottom: 50),
-                  imgUrl: imageList.elementAt(2),
-                ),
-                RotatedImages(
-                  angle: -30,
-                  margin: const EdgeInsets.only(right: 140, bottom: 50),
-                  imgUrl: imageList.elementAt(1),
-                ),
-                RotatedImages(
-                  angle: 0,
-                  margin: EdgeInsets.only(left: 0, bottom: 20),
-                  imgUrl: imageList.elementAt(0),
-                ),
-              ],
-            ),
+          BlocBuilder<DownloadsBloc, DownloadsState>(
+            builder: (context, state) {
+              return SizedBox(
+                width: size.width,
+                height: size.width,
+                child: state.isloading
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : state.downloads.isEmpty
+                        ? const Text("No Imgaes Found")
+                        : Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              Center(
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey,
+                                  radius: size.width * 0.4,
+                                ),
+                              ),
+                              RotatedImages(
+                                angle: 30,
+                                margin: const EdgeInsets.only(
+                                    left: 140, bottom: 50),
+                                imgUrl:
+                                    "$ImageAppendUrl${state.downloads.elementAt(0).poster_path}",
+                              ),
+                              RotatedImages(
+                                angle: -30,
+                                margin: const EdgeInsets.only(
+                                    right: 140, bottom: 50),
+                                imgUrl:
+                                    "$ImageAppendUrl${state.downloads.elementAt(1).poster_path}",
+                              ),
+                              RotatedImages(
+                                angle: 0,
+                                margin:
+                                    const EdgeInsets.only(left: 0, bottom: 20),
+                                imgUrl:
+                                    "$ImageAppendUrl${state.downloads.elementAt(2).poster_path}",
+                              ),
+                            ],
+                          ),
+              );
+            },
           ),
           ElevatedButton(
             onPressed: () {},

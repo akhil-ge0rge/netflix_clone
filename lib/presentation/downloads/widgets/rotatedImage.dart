@@ -22,10 +22,13 @@ class RotatedImages extends StatelessWidget {
         height: size.width * 0.6,
         margin: margin,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.red,
-            image: DecorationImage(
-                fit: BoxFit.cover, image: NetworkImage(imgUrl))),
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.red,
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: NetworkImage(imgUrl),
+          ),
+        ),
       ),
     );
   }
