@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:netflix_clone/core/constants.dart';
 import 'package:netflix_clone/presentation/search/widget/search_result_card.dart';
 
+import '../../../application/search/search_bloc.dart';
 import '../../../core/colors/colors.dart';
 
 class SearchResultWidget extends StatelessWidget {
@@ -24,17 +26,35 @@ class SearchResultWidget extends StatelessWidget {
         ),
         kHeight,
         Expanded(
-          child: GridView.count(
-            shrinkWrap: true,
-            crossAxisCount: 3,
-            mainAxisSpacing: 8,
-            childAspectRatio: 1 / 1.4,
-            crossAxisSpacing: 8,
-            children: List.generate(
-                10,
-                (index) => SearchResultCard(
-                      imgUrl: image,
-                    )),
+          child: BlocBuilder<SearchBloc, SearchState>(
+            builder: (context, state) {
+              if (state.isloading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state.isError) {
+                return const Text("Error Occured");
+              } else if (state.searchResultList.isEmpty) {
+                return const Text("No Search Result Found");
+              } else {
+                return GridView.count(
+                  shrinkWrap: true,
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 8,
+                  childAspectRatio: 1 / 1.4,
+                  crossAxisSpacing: 8,
+                  children: List.generate(
+                    state.searchResultList.length,
+                    (index) => SearchResultCard(
+                      imgUrl: state.searchResultList
+                          .elementAt(index)
+                          .posterPath
+                          .toString(),
+                    ),
+                  ),
+                );
+              }
+            },
           ),
         ),
       ],
