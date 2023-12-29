@@ -4,7 +4,9 @@ import 'package:netflix_clone/core/constants.dart';
 
 class TopSearchTile extends StatelessWidget {
   final String imgUrl;
-  const TopSearchTile({super.key, required this.imgUrl});
+  final String movieName;
+  const TopSearchTile(
+      {super.key, required this.imgUrl, required this.movieName});
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +21,15 @@ class TopSearchTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: NetworkImage(imgUrl),
+              image: NetworkImage(ImageAppendUrl + imgUrl),
             ),
           ),
         ),
         kWidth,
         Expanded(
             child: Text(
-          "Movie name",
-          style: TextStyle(
+          movieName,
+          style: const TextStyle(
               color: kWhiteColor, fontWeight: FontWeight.bold, fontSize: 16),
         )),
         Container(

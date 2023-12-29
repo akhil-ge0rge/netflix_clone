@@ -9,9 +9,11 @@ part of 'downloads.dart';
 _$DownloadsImpl _$$DownloadsImplFromJson(Map<String, dynamic> json) =>
     _$DownloadsImpl(
       poster_path: json['poster_path'] as String?,
+      title: json['title'] as String?,
     );
 
 Map<String, dynamic> _$$DownloadsImplToJson(_$DownloadsImpl instance) =>
     <String, dynamic>{
       'poster_path': instance.poster_path,
+      'title': instance.title,
     };
