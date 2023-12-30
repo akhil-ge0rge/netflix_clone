@@ -27,6 +27,8 @@ class SearchScreen extends StatelessWidget {
                 backgroundColor: Colors.grey.withOpacity(0.4),
                 onChanged: (val) {
                   if (val.isEmpty) {
+                    BlocProvider.of<SearchBloc>(context)
+                        .add(const Initialize());
                     return;
                   }
                   _debouncer.run(() {
@@ -48,16 +50,17 @@ class SearchScreen extends StatelessWidget {
                 ),
               ),
               kHeight,
-              Expanded(child: BlocBuilder<SearchBloc, SearchState>(
-                builder: (context, state) {
-                  if (state.searchResultList.isEmpty) {
-                    return const SearchIdleWidget();
-                  } else {
-                    return const SearchResultWidget();
-                  }
-                },
-              ))
-              // const Expanded(child: SearchResultWidget()),
+              Expanded(
+                child: BlocBuilder<SearchBloc, SearchState>(
+                  builder: (context, state) {
+                    if (state.searchResultList.isEmpty) {
+                      return const SearchIdleWidget();
+                    } else {
+                      return const SearchResultWidget();
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         ),

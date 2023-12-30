@@ -39,6 +39,7 @@ dependencies:
   google_fonts: ^6.1.0
   injectable: ^1.5.3
   json_serializable: ^6.7.1
+  share_plus: ^7.2.1
   video_player: ^2.8.1
 
 dev_dependencies:
