@@ -100,13 +100,16 @@ class VideoCard extends StatelessWidget {
                         FastLaughActionWidget(
                             icon: Icons.emoji_emotions, text: 'LOL'),
                         GestureDetector(
+                            onTap: () {},
+                            child: FastLaughActionWidget(
+                                icon: Icons.add, text: 'My List')),
+                        GestureDetector(
                             onTap: () {
                               final movieName = title.toUpperCase();
                               Share.share(movieName);
                             },
                             child: FastLaughActionWidget(
-                                icon: Icons.add, text: 'My List')),
-                        FastLaughActionWidget(icon: Icons.share, text: 'Share'),
+                                icon: Icons.share, text: 'Share')),
                         FastLaughActionWidget(
                             icon: Icons.play_arrow, text: 'Play'),
                       ],
