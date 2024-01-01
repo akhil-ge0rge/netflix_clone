@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:netflix_clone/core/colors/colors.dart';
 import 'package:netflix_clone/core/constants.dart';
 import 'package:netflix_clone/domain/downloads/models/downloads.dart';
@@ -97,8 +98,31 @@ class VideoCard extends StatelessWidget {
                             ),
                           ),
                         ),
-                        FastLaughActionWidget(
-                            icon: Icons.emoji_emotions, text: 'LOL'),
+                        BlocBuilder<FastLaughBloc, FastLaughState>(
+                          builder: (context, state) {
+                            final _index = index;
+                            if (state.likedVideos.contains(_index)) {
+                              return GestureDetector(
+                                onTap: () {
+                                  BlocProvider.of<FastLaughBloc>(context)
+                                      .add(UnlikeVideo(id: _index));
+                                },
+                                child: const FastLaughActionWidget(
+                                    icon: Icons.emoji_emotions, text: 'Liked'),
+                              );
+                            } else {
+                              return GestureDetector(
+                                onTap: () {
+                                  BlocProvider.of<FastLaughBloc>(context)
+                                      .add(LikeVideo(id: _index));
+                                },
+                                child: const FastLaughActionWidget(
+                                    icon: Icons.emoji_emotions_outlined,
+                                    text: 'LOL'),
+                              );
+                            }
+                          },
+                        ),
                         GestureDetector(
                             onTap: () {},
                             child: FastLaughActionWidget(
