@@ -5,7 +5,16 @@ import '../../../core/colors/colors.dart';
 import '../../../core/constants.dart';
 
 class EveryoneWatchingMovieCardWidget extends StatelessWidget {
-  const EveryoneWatchingMovieCardWidget({super.key});
+  final String id;
+  final String posterPath;
+  final String movieName;
+  final String description;
+  const EveryoneWatchingMovieCardWidget(
+      {super.key,
+      required this.id,
+      required this.posterPath,
+      required this.movieName,
+      required this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +22,7 @@ class EveryoneWatchingMovieCardWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Tall Gril 2",
+          movieName,
           style: TextStyle(
             color: kWhiteColor,
             fontWeight: FontWeight.bold,
@@ -22,7 +31,7 @@ class EveryoneWatchingMovieCardWidget extends StatelessWidget {
         ),
         kHeight,
         Text(
-          "asdasd asdadas dasdadas aa  asdasdas ads asd asdasd. asdasd asd as d asda d a d as dasdasda asdasd asd asd as d as d asd asd as dasd a d  qw re  fg vcxs  fegfergr vrrv ",
+          description,
           textAlign: TextAlign.start,
           style: TextStyle(
             color: kWhiteColor,
@@ -34,11 +43,9 @@ class EveryoneWatchingMovieCardWidget extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).size.width,
               height: 160,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                   image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                          'https://www.themoviedb.org/t/p/w1066_and_h600_bestv2/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg'))),
+                      fit: BoxFit.cover, image: NetworkImage(posterPath))),
             ),
             Positioned(
               right: 8,

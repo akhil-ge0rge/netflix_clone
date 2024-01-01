@@ -5,7 +5,20 @@ import '../../../core/colors/colors.dart';
 import '../../../core/constants.dart';
 
 class CommingSoonMovieCard extends StatelessWidget {
-  const CommingSoonMovieCard({super.key});
+  final String id;
+  final String month;
+  final String day;
+  final String posterPath;
+  final String movieName;
+  final String description;
+  const CommingSoonMovieCard(
+      {super.key,
+      required this.id,
+      required this.month,
+      required this.day,
+      required this.posterPath,
+      required this.movieName,
+      required this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +33,16 @@ class CommingSoonMovieCard extends StatelessWidget {
             children: [
               kHeight,
               Text(
-                "Feb",
-                style: TextStyle(
+                month,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: kWhiteColor,
                   fontSize: 20,
                 ),
               ),
               Text(
-                "11",
-                style: TextStyle(
+                day,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: kWhiteColor,
                   letterSpacing: 4,
@@ -50,11 +63,10 @@ class CommingSoonMovieCard extends StatelessWidget {
                   Container(
                     width: MediaQuery.of(context).size.width * 0.8,
                     height: 160,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                         image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: NetworkImage(
-                                'https://www.themoviedb.org/t/p/w1066_and_h600_bestv2/fm6KqXpk3M2HVveHwCrBSSBaO0V.jpg'))),
+                            image: NetworkImage(posterPath))),
                   ),
                   Positioned(
                     right: 8,
@@ -82,13 +94,18 @@ class CommingSoonMovieCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "Tall Girl 2",
-                    style: TextStyle(
-                        color: kWhiteColor,
-                        letterSpacing: 3,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25),
+                  Container(
+                    width: 200,
+                    child: Text(
+                      movieName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: kWhiteColor,
+                          letterSpacing: 3,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25),
+                    ),
                   ),
                   Row(
                     children: [
@@ -139,7 +156,9 @@ class CommingSoonMovieCard extends StatelessWidget {
               ),
               kHeight,
               Text(
-                "Tall Gril 2",
+                movieName,
+                maxLines: 1,
+                overflow: TextOverflow.clip,
                 style: TextStyle(
                     color: kWhiteColor,
                     letterSpacing: 1,
@@ -148,7 +167,8 @@ class CommingSoonMovieCard extends StatelessWidget {
               ),
               kHeight,
               Text(
-                "asdasd asdadas dasdadas aa  asdasdas ads asd asdasd. asdasd asd as d asda d a d as dasdasda asdasd asd asd as d as d asd asd as dasd a d  qw re  fg vcxs  fegfergr vrrv ",
+                description,
+                maxLines: 5,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   color: kWhiteColor,

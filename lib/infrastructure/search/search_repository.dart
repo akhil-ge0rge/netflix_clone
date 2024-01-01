@@ -19,7 +19,6 @@ class SearchRepository implements SearchServices {
           ApiEndPoints.SEARCH_API_END_POINT,
           queryParameters: {'query': movieQuery});
       if (response.statusCode == 200 || response.statusCode == 201) {
-        print("Data is here");
         final searchResult = SearchResp.fromJson(response.data);
         return Right(searchResult);
       } else {

@@ -9,10 +9,16 @@ class EveryoneWatchingTabBarViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 5,
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      scrollDirection: Axis.vertical,
-      itemBuilder: (context, index) => const EveryoneWatchingMovieCardWidget(),
-    );
+        itemCount: 5,
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        scrollDirection: Axis.vertical,
+        itemBuilder: (context, index) => SizedBox()
+
+        // EveryoneWatchingMovieCardWidget(
+        //     id: id,
+        //     posterPath: posterPath,
+        //     movieName: movieName,
+        //     description: description),
+        );
   }
 }

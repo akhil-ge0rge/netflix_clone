@@ -65,9 +65,12 @@ class NewAndHotScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
-            CommingSoonTabBarViewWidget(text: "Comming Soon"),
+            CommingSoonTabBarViewWidget(
+              text: "Comming Soon",
+              key: Key("comming sooon"),
+            ),
             EveryoneWatchingTabBarViewWidget(text: "Everyones Warching")
           ],
         ),
