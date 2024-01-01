@@ -71,7 +71,10 @@ class NewAndHotScreen extends StatelessWidget {
               text: "Comming Soon",
               key: Key("comming sooon"),
             ),
-            EveryoneWatchingTabBarViewWidget(text: "Everyones Warching")
+            EveryoneWatchingTabBarViewWidget(
+              text: "Everyones Warching",
+              key: Key("everyonewatching"),
+            )
           ],
         ),
       ),

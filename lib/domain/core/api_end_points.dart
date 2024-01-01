@@ -8,5 +8,5 @@ class ApiEndPoints {
   static const HOTANDNEWMOVIE_API_END_POINT =
       '$BASE_URL/discover/movie?api_key=$API_KEY';
   static const HOTANDNEWTV_API_END_POINT =
-      '$BASE_URL/search/tv?api_key=$API_KEY';
+      '$BASE_URL/discover/tv?api_key=$API_KEY';
 }

@@ -36,6 +36,7 @@ class HotAndNewRepository implements HotAndNewServices {
     try {
       final Response response =
           await Dio(BaseOptions()).get(ApiEndPoints.HOTANDNEWTV_API_END_POINT);
+      print(ApiEndPoints.HOTANDNEWTV_API_END_POINT);
       if (response.statusCode == 200 || response.statusCode == 201) {
         final hotAndNewResult = HotAndNewResp.fromJson(response.data);
         return Right(hotAndNewResult);
