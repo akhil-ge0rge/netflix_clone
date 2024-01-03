@@ -6,7 +6,12 @@ import '../../widget/main_title.dart';
 
 class MovieCardListWithTextWidget extends StatelessWidget {
   final String title;
-  const MovieCardListWithTextWidget({super.key, required this.title});
+  final List<String> movieList;
+  const MovieCardListWithTextWidget({
+    super.key,
+    required this.title,
+    required this.movieList,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +27,13 @@ class MovieCardListWithTextWidget extends StatelessWidget {
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: List.generate(
-                10,
-                (index) => MovieTileCard(
-                    imgUrl:
-                        'https://www.themoviedb.org/t/p/w440_and_h660_face/upmXGc1QovmPBU0mQJR2re6ruKd.jpg')),
+              movieList.length,
+              (index) => MovieTileCard(
+                imgUrl: movieList.elementAt(index),
+              ),
+            ),
           ),
-        )
+        ),
       ],
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:netflix_clone/application/home/home_bloc.dart';
 import 'package:netflix_clone/core/constants.dart';
 import 'package:netflix_clone/presentation/home/widget/top_ten_movie_card.dart';
 
@@ -14,6 +16,9 @@ class HomeScreen extends StatelessWidget {
       'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8xV47NDrjdZDpkVcCFqkdHa3T0C.jpg';
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<HomeBloc>(context).add(const GetHomeScreenData());
+    });
     return Scaffold(
         body: ValueListenableBuilder(
             valueListenable: scrollNotifier,
@@ -33,103 +38,156 @@ class HomeScreen extends StatelessWidget {
                   },
                   child: Stack(
                     children: [
-                      ListView(
-                        physics: const ClampingScrollPhysics(),
-                        children: [
-                          Stack(
-                            alignment: Alignment.bottomCenter,
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                height: 500,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: NetworkImage(imageUrl))),
+                      BlocBuilder<HomeBloc, HomeState>(
+                        builder: (context, state) {
+                          if (state.isLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Icon(
-                                        Icons.add,
-                                        color: kWhiteColor,
-                                        size: 30,
+                            );
+                          } else if (state.isError) {
+                            return const Center(
+                              child: Text(
+                                "Error Occured",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            );
+                          } else {
+                            final releasedPastYear = state.pastYearMovieList
+                                .map((e) =>
+                                    ImageAppendUrl + e.backdropPath.toString())
+                                .toList();
+                            final trendingNow = state.trendingMovieList
+                                .map((e) =>
+                                    ImageAppendUrl + e.backdropPath.toString())
+                                .toList();
+                            final southIndianCinemas = state
+                                .southIndianMovieList
+                                .map((e) =>
+                                    ImageAppendUrl + e.backdropPath.toString())
+                                .toList();
+                            final tenseAndDrama = state.tenseAndDramaMovieList
+                                .map((e) =>
+                                    ImageAppendUrl + e.backdropPath.toString())
+                                .toList();
+                            final trendingTvShows = state.trendingTvList
+                                .map((e) =>
+                                    ImageAppendUrl + e.backdropPath.toString())
+                                .toList();
+                            return ListView(
+                              children: [
+                                Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  children: [
+                                    Container(
+                                      width: double.infinity,
+                                      height: 500,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(imageUrl),
+                                        ),
                                       ),
-                                      Text(
-                                        "My List",
-                                        style: TextStyle(
-                                            color: kWhiteColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
-                                      ),
-                                    ],
-                                  ),
-                                  TextButton.icon(
-                                    onPressed: () {},
-                                    style: const ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStatePropertyAll(kWhiteColor),
                                     ),
-                                    icon: const Icon(
-                                      Icons.play_arrow,
-                                      color: kBlackColor,
-                                    ),
-                                    label: const Text(
-                                      "Play",
-                                      style: TextStyle(
-                                          color: kBlackColor,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        const Column(
+                                          children: [
+                                            Icon(
+                                              Icons.add,
+                                              color: kWhiteColor,
+                                              size: 30,
+                                            ),
+                                            Text(
+                                              "My List",
+                                              style: TextStyle(
+                                                  color: kWhiteColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18),
+                                            ),
+                                          ],
+                                        ),
+                                        TextButton.icon(
+                                          onPressed: () {},
+                                          style: const ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStatePropertyAll(
+                                                    kWhiteColor),
+                                          ),
+                                          icon: const Icon(
+                                            Icons.play_arrow,
+                                            color: kBlackColor,
+                                          ),
+                                          label: const Text(
+                                            "Play",
+                                            style: TextStyle(
+                                                color: kBlackColor,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                        ),
+                                        const Column(
+                                          children: [
+                                            Icon(
+                                              Icons.info_outline,
+                                              color: kWhiteColor,
+                                              size: 30,
+                                            ),
+                                            Text(
+                                              "Info",
+                                              style: TextStyle(
+                                                  color: kWhiteColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                kHeight20,
+                                if (releasedPastYear.length >= 10)
+                                  MovieCardListWithTextWidget(
+                                    title: "Released in the past year",
+                                    movieList: releasedPastYear.sublist(0, 10),
                                   ),
-                                  Column(
-                                    children: [
-                                      Icon(
-                                        Icons.info_outline,
-                                        color: kWhiteColor,
-                                        size: 30,
-                                      ),
-                                      Text(
-                                        "Info",
-                                        style: TextStyle(
-                                            color: kWhiteColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
-                                      ),
-                                    ],
+                                kHeight20,
+                                if (trendingNow.length >= 10)
+                                  MovieCardListWithTextWidget(
+                                    title: "Trending Now",
+                                    movieList: trendingNow.sublist(0, 10),
                                   ),
-                                ],
-                              )
-                            ],
-                          ),
-                          kHeight20,
-                          MovieCardListWithTextWidget(
-                            title: "Released in the past year",
-                          ),
-                          kHeight20,
-                          MovieCardListWithTextWidget(
-                            title: "Trending Now",
-                          ),
-                          kHeight20,
-                          TopTenMovieCardWidget(
-                            title: "Top 10 TV Shows in India Today",
-                          ),
-                          kHeight20,
-                          MovieCardListWithTextWidget(
-                            title: "Tense Dramas",
-                          ),
-                          kHeight20,
-                          MovieCardListWithTextWidget(
-                            title: "South Indian Cinemas",
-                          ),
-                        ],
+                                kHeight20,
+                                if (trendingTvShows.length >= 10)
+                                  TopTenMovieCardWidget(
+                                    title: "Top 10 TV Shows in India Today",
+                                    movieList: trendingTvShows.sublist(0, 10),
+                                  ),
+                                kHeight20,
+                                if (tenseAndDrama.length >= 10)
+                                  MovieCardListWithTextWidget(
+                                    title: "Tense Dramas",
+                                    movieList: tenseAndDrama.sublist(0, 10),
+                                  ),
+                                kHeight20,
+                                if (southIndianCinemas.length >= 10)
+                                  MovieCardListWithTextWidget(
+                                    title: "South Indian Cinemas",
+                                    movieList:
+                                        southIndianCinemas.sublist(0, 10),
+                                  ),
+                              ],
+                            );
+                          }
+                        },
                       ),
                       scrollNotifier.value
                           ? AnimatedContainer(
-                              duration: Duration(milliseconds: 1000),
+                              duration: const Duration(milliseconds: 1000),
                               child: Container(
                                 height: 80,
                                 width: double.infinity,
